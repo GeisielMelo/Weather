@@ -1,8 +1,11 @@
+import React from "react";
+import Index from "./pages/Index";
+
 function App() {
   return (
-    <div>
-      <h1>Weather</h1>
-    </div>
+    <section>
+      <Index />
+    </section>
   );
 }
 
