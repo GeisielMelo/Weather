@@ -9,6 +9,7 @@ const StyledTemperature = styled.h2`
   text-align: center;
 
   color: #ffffff;
+  margin: 10px;
 `;
 
 const Temperature = ({ temperature }) => {

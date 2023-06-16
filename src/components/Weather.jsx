@@ -6,7 +6,6 @@ const StyledWeather = styled.h3`
     font-style: normal;
     font-weight: 300;
     font-size: 16px;
-    line-height: 39px;
     text-align: center;
     
     color: #ffffff;

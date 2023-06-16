@@ -5,8 +5,7 @@ const StyledTittle = styled.h1`
     font-family: 'Sarabun';
     font-style: normal;
     font-weight: 400;
-    font-size: 32px;
-    line-height: 52px;
+    font-size: 42px;
 
     color: #FFFFFF;
 `;
