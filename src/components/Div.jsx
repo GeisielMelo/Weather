@@ -17,7 +17,7 @@ export const Widget = styled.div`
   max-width: 648px;
   max-height: 760px;
   padding: 20px;
-  background: rgb(31, 110, 140) 0%;
+  background: linear-gradient(180deg, #2f80ed, #1488CC, #2B32B2);
   backdrop-filter: blur(25px);
   border-radius: 20px;
   box-shadow: inset 0px 0px 30px 10px rgb(2, 240, 255, 0.1);

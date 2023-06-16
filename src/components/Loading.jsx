@@ -7,7 +7,6 @@ const StyledDiv = styled.div`
   width: 25px;
   height: 25px;
   animation: spin 2s linear infinite;
-  margin: 50px;
 
   transition: all 0.2s ease-in-out;
 
@@ -18,6 +17,13 @@ const StyledDiv = styled.div`
     100% {
       transform: rotate(360deg);
     }
+  }
+
+  @media (max-width: 576px) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 `;
 

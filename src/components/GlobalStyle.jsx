@@ -16,7 +16,7 @@ section {
 
 @media (min-width: 578px) {
   body {
-    background: linear-gradient(90deg, #2f80ed, #1488CC, #2B32B2);
+    background: linear-gradient(360deg, #2f80ed, #1488CC, #2B32B2);
     background-size: 200% 200%;
     animation: gradientAnimation 20s ease-in-out infinite;
   }
