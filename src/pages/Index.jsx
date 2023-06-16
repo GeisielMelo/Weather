@@ -11,7 +11,7 @@ import kelvinToCelsius from "../utils/TemperatureConverter";
 import timestampToHour from "../utils/TimestampConverter";
 import Loading from "../components/Loading";
 import getUserLocation from "../services/localDeviceService";
-import { getForecast, getWeather } from "../services/openWeatherService";
+import getWeatherData from "../services/openWeatherService";
 
 const Home = () => {
   const [location, setLocation] = useState(null);
@@ -36,7 +36,11 @@ const Home = () => {
     const fetchForecastData = async () => {
       try {
         if (location) {
-          const forecastData = await getForecast(location.lat, location.lon);
+          const forecastData = await getWeatherData(
+            location.lat,
+            location.lon,
+            "forecast"
+          );
           setForecastData(forecastData);
         }
       } catch (error) {
@@ -52,7 +56,11 @@ const Home = () => {
     const fetchWeatherData = async () => {
       try {
         if (location) {
-          const weatherData = await getWeather(location.lat, location.lon);
+          const weatherData = await getWeatherData(
+            location.lat,
+            location.lon,
+            "weather"
+          );
           setWeatherData(weatherData);
         }
       } catch (error) {
