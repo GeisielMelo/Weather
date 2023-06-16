@@ -6,9 +6,9 @@ import Weather from "../components/Weather";
 import NextHours from "../components/NextHours";
 import Info from "../components/Info";
 import DayCycle from "../components/DayCycle";
-import HourConverter from "../utils/HourConverter";
-import KelvinToCelsius from "../utils/TemperatureConverter";
-import TimestampToHour from "../utils/TimestampConverter";
+import hourConverter from "../utils/HourConverter";
+import kelvinToCelsius from "../utils/TemperatureConverter";
+import timestampToHour from "../utils/TimestampConverter";
 import Loading from "../components/Loading";
 import getUserLocation from "../services/localDeviceService";
 import { getForecast, getWeather } from "../services/openWeatherService";
@@ -82,13 +82,13 @@ const Home = () => {
             <Widget>
               <WidgetContent>
                 <Title title={cityName} />
-                <Temperature temperature={KelvinToCelsius(temperature)} />
+                <Temperature temperature={kelvinToCelsius(temperature)} />
                 <Weather weather={weather} />
                 <FlexDiv>
                   {forecastData?.list.slice(0, 6).map((item) => (
                     <NextHours
-                      maxTemp={KelvinToCelsius(item.main.temp)}
-                      hour={HourConverter(item.dt_txt)}
+                      maxTemp={kelvinToCelsius(item.main.temp)}
+                      hour={hourConverter(item.dt_txt)}
                       icon={item.weather[0].icon}
                       key={item.dt_txt}
                     />
@@ -96,12 +96,12 @@ const Home = () => {
                 </FlexDiv>
                 <Divider />
                 <DayCycle
-                  sunriseTime={TimestampToHour(sunrise)}
-                  sunsetTime={TimestampToHour(sunset)}
+                  sunriseTime={timestampToHour(sunrise)}
+                  sunsetTime={timestampToHour(sunset)}
                 />
                 <FlexDiv>
                   <Info
-                    info={KelvinToCelsius(feelsLike) + "°"}
+                    info={kelvinToCelsius(feelsLike) + "°"}
                     description="RealFeel"
                   />
                   <Info info={humidity + "%"} description="Humidity" />

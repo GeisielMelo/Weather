@@ -1,5 +1,5 @@
-const KelvinToCelsius = (kelvin) => {
+const kelvinToCelsius = (kelvin) => {
   return parseInt(kelvin - 273);
 }
 
-export default KelvinToCelsius;
+export default kelvinToCelsius;

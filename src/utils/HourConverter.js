@@ -1,4 +1,4 @@
-const HourConverter = (fullDate) => {
+const hourConverter = (fullDate) => {
     const dateTime = fullDate;
     // eslint-disable-next-line
     const [date, time] = dateTime.split(" ");
@@ -6,4 +6,4 @@ const HourConverter = (fullDate) => {
     return hours;
 };
 
-export default HourConverter;
+export default hourConverter;
