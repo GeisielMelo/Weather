@@ -2,12 +2,23 @@ import axios from "axios";
 
 const apiKey = "";
 
-export const getForecast = (latitude, longitude) => {
+const getWeatherData = (latitude, longitude, forecastType) => {
+  const apiForecast = "https://api.openweathermap.org/data/2.5/forecast?";
+  const apiWeather = "https://api.openweathermap.org/data/2.5/weather?";
+
+  const lat = `lat=${latitude}`;
+  const lon = `lon=${longitude}`;
+
+  let url = "";
+  if (forecastType === "weather") {
+    url = `${apiWeather}${lat}&${lon}&appid=${apiKey}`;
+  } else if (forecastType === "forecast") {
+    url = `${apiForecast}${lat}&${lon}&appid=${apiKey}`;
+  }
+
   return new Promise((resolve, reject) => {
     axios
-      .get(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}`
-      )
+      .get(url)
       .then((response) => {
         const weatherData = response.data;
         resolve(weatherData);
@@ -19,19 +30,5 @@ export const getForecast = (latitude, longitude) => {
   });
 };
 
-export const getWeather = (latitude, longitude) => {
-  return new Promise((resolve, reject) => {
-    axios
-      .get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`
-      )
-      .then((response) => {
-        const weatherData = response.data;
-        resolve(weatherData);
-      })
-      .catch((error) => {
-        console.error("Error in getting weather data.");
-        reject(error);
-      });
-  });
-};
+export default getWeatherData;
+
