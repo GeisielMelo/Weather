@@ -1,5 +1,3 @@
-const userInput = "saalvador ba";
-
 // Verify if string more than 2 words.
 const isStringGreaterThanTwo = (string) => {
   const matches = string.match(/\b\w+\b/g);
@@ -11,7 +9,7 @@ const isStringGreaterThanTwo = (string) => {
 };
 
 // Verify if string contains numbers.
-const isStringWithNumbers = (string) => {
+const containsNumbers = (string) => {
   const matches = string.match(/[0-9]/);
   if (!matches) {
     return false;
@@ -20,7 +18,7 @@ const isStringWithNumbers = (string) => {
   }
 };
 
-// Verify if only the last word has 2 caracters.
+// Verify if only the last word has 2 caracteres.
 const isJustTwoLastWords = (string) => {
   const matches = string.match(/\b\w{2}\b/);
   if (!matches) {
@@ -30,13 +28,21 @@ const isJustTwoLastWords = (string) => {
   }
 };
 
-
-
 const isValidInput = (input) => {
+  if (containsNumbers(input)) {
+    return false;
+  }
 
+  if (!isStringGreaterThanTwo(input)) {
+    return false;
+  }
+
+  if (!isJustTwoLastWords(input)) {
+    return false;
+  }
+
+  return true;
 };
 
 
-console.log(isStringGreaterThanTwo(userInput));
-console.log(isStringWithNumbers(userInput));
-console.log(isJustTwoLastWords(userInput));
+console.log(isValidInput("saalvador ba"));
