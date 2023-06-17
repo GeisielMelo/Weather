@@ -27,8 +27,8 @@ const StyledDiv = styled.div`
   }
 `;
 
-const Loading = () => {
+const LoadingScreen = () => {
   return <StyledDiv />;
 };
 
-export default Loading;
+export default LoadingScreen;
