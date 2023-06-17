@@ -9,7 +9,7 @@ This project is a weather application that provides real-time weather informatio
 
 ## Deploy
 
-[Demo](https://fastidious-dasik-7c0263.netlify.app/) hosted with  [Netlify](https://www.netlify.com/).
+[Demo](https://geisielmelo-weather.netlify.app/) hosted with  [Netlify](https://www.netlify.com/).
 
 
 ## Features
