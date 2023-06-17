@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Widget, WidgetContent, FlexDiv, Divider } from "../components/Div";
+import { Widget, WidgetContent, StatusWeather } from "../components/Div";
+import { DivHeader, ForecastDiv, StatusDiv, LineDiv } from "../components/Div";
 import { searchByCoordinates } from "../services/openWeatherService";
 import { searchByCity } from "../services/openWeatherService";
 import Title from "../components/Title";
@@ -13,22 +14,28 @@ import Menu from "../components/Menu";
 import hourConverter from "../utils/HourConverter";
 import kelvinToCelsius from "../utils/TemperatureConverter";
 import timestampToHour from "../utils/TimestampConverter";
-import Loading from "../components/Loading";
+import LoadingScreen from "../components/LoadingScreen";
 import getUserLocation from "../services/localDeviceService";
+import isValidString from "../utils/regexUtils";
+import MessageAlert from "../components/MessageAlert";
 
 const Home = () => {
+  const [loading, setLoading] = useState(true);
   const [location, setLocation] = useState(null);
   const [forecastData, setForecastData] = useState(null);
   const [weatherData, setWeatherData] = useState(null);
-  const [searchBar, setSearchBar] = useState(true);
+  const [searchBar, setSearchBar] = useState(false);
   const [currentSearchBarData, setCurrentSearchBarData] = useState("");
-  const [searchBarData, setSearchBarData] = useState("");
+  const [customAlert, setCustomAlert] = useState(false);
+  const [customAlertMessage, setCustomAlertMessage] = useState("");
 
   useEffect(() => {
     const fetchUserLocation = async () => {
       try {
-        const location = await getUserLocation();
-        setLocation(location);
+        if (!location) {
+          const location = await getUserLocation();
+          setLocation(location);
+        }
       } catch (error) {
         console.error("Geolocation request rejected.");
         setLocation({ lat: -15.7801, lon: -47.9292 });
@@ -36,18 +43,20 @@ const Home = () => {
     };
 
     fetchUserLocation();
-  }, []);
+  }, [location]);
 
   useEffect(() => {
     const fetchForecastData = async () => {
       try {
-        if (location) {
+        if (location && (!forecastData || !weatherData)) {
+          setLoading(true);
           let lat = location.lat;
           let lon = location.lon;
-          const forecastData = await searchByCoordinates(lat, lon, "forecast");
-          const weatherData = await searchByCoordinates(lat, lon, "weather");
+          let forecastData = await searchByCoordinates(lat, lon, "forecast");
+          let weatherData = await searchByCoordinates(lat, lon, "weather");
           setForecastData(forecastData);
           setWeatherData(weatherData);
+          setLoading(false);
         }
       } catch (error) {
         console.error("Error on fetch forecast data.");
@@ -57,33 +66,37 @@ const Home = () => {
     };
 
     fetchForecastData();
-  }, [location]);
+  }, [location, forecastData, weatherData]);
 
-  useEffect(() => {
-    const fetchForecastData = async () => {
+  const handleSearch = async (data) => {
+    if (isValidString(data)) {
+      let words = data.split(" ");
+      let country = words.pop().toUpperCase();
+      let city = words.join(" ");
+
       try {
-        if (searchBarData) {
-          const forecastData = await searchByCity(searchBarData, "forecast");
-          const weatherData = await searchByCity(searchBarData, "weather");
-          setForecastData(forecastData);
-          setWeatherData(weatherData);
-        }
+        let forecastData = await searchByCity(city, country, "forecast");
+        let weatherData = await searchByCity(city, country, "weather");
+        setForecastData(forecastData);
+        setWeatherData(weatherData);
+        setSearchBar(!searchBar);
       } catch (error) {
-        console.error("Error on fetch forecast data.");
+        setSearchBar(!searchBar);
         setForecastData(null);
         setWeatherData(null);
+        handleShowAlert("The location does not exist. Please try again.");
       }
-    };
-
-    if (searchBarData !== "") {
-      fetchForecastData();
+    } else {
+      handleShowAlert("Please, enter a valid place! (ex: 'London UK').");
     }
-  }, [searchBarData]);
+  };
 
-  const handleSearch = (data) => {
-    console.log(data, searchBarData)
-    // setSearchBarData(data);
-    setSearchBar(!searchBar);
+  const handleShowAlert = (message) => {
+    setCustomAlertMessage(message);
+    setCustomAlert(true);
+    setTimeout(() => {
+      setCustomAlert(false);
+    }, "4000");
   };
 
   const cityName = weatherData?.name;
@@ -97,27 +110,34 @@ const Home = () => {
   const pressure = weatherData ? weatherData?.main.pressure : null;
 
   return (
-    <Widget>
-      <WidgetContent>
-        {forecastData && weatherData ? (
-          <>
+    <>
+      {customAlert ? <MessageAlert text={customAlertMessage} /> : null}
+      <Widget>
+        <WidgetContent>
+          {loading ? (
+            <>
+              <LoadingScreen />
+            </>
+          ) : (
             <Widget>
               <WidgetContent>
                 <Menu
                   onClick={() => setSearchBar(!searchBar)}
                   status={searchBar}
                 />
-                {searchBar ? (
-                  <Search
-                    onChange={(e) => setCurrentSearchBarData(e.target.value)}
-                    onClick={() => handleSearch(currentSearchBarData)}
-                  />
-                ) : (
-                  <Title title={cityName} />
-                )}
+                <DivHeader>
+                  {searchBar ? (
+                    <Search
+                      onChange={(e) => setCurrentSearchBarData(e.target.value)}
+                      onClick={() => handleSearch(currentSearchBarData)}
+                    />
+                  ) : (
+                    <Title title={cityName} />
+                  )}
+                </DivHeader>
                 <Temperature temperature={kelvinToCelsius(temperature)} />
                 <Weather weather={weather} />
-                <FlexDiv>
+                <ForecastDiv>
                   {forecastData?.list.slice(0, 6).map((item) => (
                     <NextHours
                       maxTemp={kelvinToCelsius(item.main.temp)}
@@ -126,29 +146,30 @@ const Home = () => {
                       key={item.dt_txt}
                     />
                   ))}
-                </FlexDiv>
-                <Divider />
-                <DayCycle
-                  sunriseTime={timestampToHour(sunrise)}
-                  sunsetTime={timestampToHour(sunset)}
-                />
-                <FlexDiv>
-                  <Info
-                    info={kelvinToCelsius(feelsLike) + "°"}
-                    description="RealFeel"
+                </ForecastDiv>
+                <LineDiv />
+
+                <StatusDiv>
+                  <DayCycle
+                    sunriseTime={timestampToHour(sunrise)}
+                    sunsetTime={timestampToHour(sunset)}
                   />
-                  <Info info={humidity + "%"} description="Humidity" />
-                  <Info info={wind} description="Wind" />
-                  <Info info={pressure} description="Pressure" />
-                </FlexDiv>
+                  <StatusWeather>
+                    <Info
+                      info={kelvinToCelsius(feelsLike) + "°"}
+                      description="RealFeel"
+                    />
+                    <Info info={humidity + "%"} description="Humidity" />
+                    <Info info={wind} description="Wind" />
+                    <Info info={pressure} description="Pressure" />
+                  </StatusWeather>
+                </StatusDiv>
               </WidgetContent>
             </Widget>
-          </>
-        ) : (
-          <Loading />
-        )}
-      </WidgetContent>
-    </Widget>
+          )}
+        </WidgetContent>
+      </Widget>
+    </>
   );
 };
 
