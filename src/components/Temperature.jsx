@@ -4,12 +4,10 @@ import styled from "styled-components";
 const StyledTemperature = styled.h2`
   font-family: "Sarabun";
   font-style: normal;
-  font-weight: 400;
-  font-size: 48px;
+  font-weight: 500;
+  font-size: 24px;
   text-align: center;
-
   color: #ffffff;
-  margin: 10px;
 `;
 
 const Temperature = ({ temperature }) => {

@@ -4,7 +4,7 @@ import styled from "styled-components";
 const StyledWeather = styled.h3`
   font-family: "Sarabun";
   font-style: normal;
-  font-weight: 300;
+  font-weight: 500;
   font-size: 16px;
   text-align: center;
   color: #ffffff;

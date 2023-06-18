@@ -5,6 +5,7 @@ const StyledInfoDiv = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
+  padding: 20px;
 `;
 
 const StyledInfo = styled.h1`
@@ -22,7 +23,6 @@ const StyledDescription = styled.p`
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
-
   text-align: center;
   color: #b7b7b7;
 `;

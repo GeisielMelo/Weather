@@ -4,7 +4,7 @@ import styled from "styled-components";
 const StyledTittle = styled.h1`
   font-family: "Sarabun";
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 42px;
   color: #ffffff;
 
