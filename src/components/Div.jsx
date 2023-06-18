@@ -11,6 +11,9 @@ export const Widget = styled.div`
   transition: all 0.2s ease-in-out;
 
   @media (max-width: 576px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     max-height: none;
     max-width: none;
     width: 100%;
@@ -58,7 +61,7 @@ export const LineDiv = styled.div`
   width: 100%;
   height: 1px;
   background-color: #fff;
-  margin: 30px 0;
+  margin: 20px 0;
 
   @media (max-width: 576px) {
     width: 95%;
