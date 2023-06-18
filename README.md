@@ -1,6 +1,6 @@
 # Weather forecast
 
-This project is a weather application that provides real-time weather information based on the user's exact location using geolocation. It displays the current temperature, weather conditions, and a detailed forecast for the next 24 hours, updated every 3 hours. The application is built using React and Axios for data fetching from the OpenWeatherMap API.
+This project is a weather application that provides real-time weather information based on the user's exact location using Geolocation. It includes a search bar implementation for users to search for weather conditions in specific locations. The application displays the current temperature, weather conditions, and a detailed forecast for the next 24 hours, which is updated every 3 hours. Built using React and Axios, the weather application fetches data from the OpenWeatherMap API to ensure accurate and up-to-date weather information.
 
 ## Screenshots
 
@@ -14,10 +14,11 @@ This project is a weather application that provides real-time weather informatio
 
 ## Features
 
-- Utilizes Geolocation to retrieve the precise forecast based on your current location.
+- Utilizes Geolocation to retrieve the accurate forecast based on the user's current location.
 - Displays the city name, temperature, and current weather conditions.
 - Presents a detailed forecast for the day, with updates every 3 hours.
 - Provides advanced weather details, including sunrise and sunset times, humidity, pressure, "Feels Like" temperature, and wind speed.
+- Contains a search bar allowing users to search for weather conditions in specific locations.
 
 ## Tech
 
